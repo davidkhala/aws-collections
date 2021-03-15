@@ -8,4 +8,10 @@ xRayDaemon() {
 	fi
 	xray
 }
-$1
+cloud9-dependency(){
+	sudo apt install -y python
+	curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+	sudo apt -qq install -y nodejs
+	sudo apt install -y build-essential
+}
+$@
