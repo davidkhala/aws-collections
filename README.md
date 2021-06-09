@@ -4,9 +4,6 @@
 Total: 41M
 - aws-sdk:  41M
 
-## Documents
-- aws-sdk API reference: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/
-
 ## Notes
 - AWS Request promisify: use `.promise()` instead of callBack function
 - apply IAM role(with 'AdministratorAccess') to EC2, otherwise `CredentialsError: Missing credentials in config`
