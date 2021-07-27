@@ -1,4 +1,4 @@
-const {AWSClass} = require('./index');
+const {AWSClass} = require('../format');
 
 class SQS extends AWSClass {
 	/**

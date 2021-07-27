@@ -1,4 +1,4 @@
-const {AWSClass} = require('./index');
+const {AWSClass} = require('../format');
 
 class S3 extends AWSClass {
 	constructor(region, apiVersion = '2006-03-01') {

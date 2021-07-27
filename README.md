@@ -1,11 +1,6 @@
 # khala-aws
 
-## disc usage
-Total: 41M
-- aws-sdk:  41M
-
 ## Notes
-- AWS Request promisify: use `.promise()` instead of callBack function
 - apply IAM role(with 'AdministratorAccess') to EC2, otherwise `CredentialsError: Missing credentials in config`
     - Console -> Service: EC2 -> select an instance -> `Actions` -- `Instance Settings` -- `Attach/Replace IAM Role`
 
@@ -25,8 +20,6 @@ Total: 41M
     - aws provide `sqs.getQueueUrl` to get QueueUrl from QueueName  
 - no way to subscribe listener,only polling to receiveMessage is supported [pull] like kafka
 - [message lag] If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request.
-### AWS MQ
-- Amazon MQ is a managed message broker service for Apache ActiveMQ, provides support for ActiveMQ versions 5.15.0, 5.15.6, 5.15.8, and 5.15.9.
 
 ## TODO
 - when migrate to use mocha.js authentication is required. 
