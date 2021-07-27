@@ -2,7 +2,7 @@
  *
  * @type {AWSRegion[]} regions
  */
-exports.regions = [
+const regions = [
 	'us-east-2',
 	'us-east-1',
 	'us-west-1',
@@ -23,6 +23,7 @@ exports.regions = [
 	'eu-north-1',
 	'sa-east-1'
 ];
+
 class AWSClass {
 	constructor() {
 		this.AWS = require('aws-sdk');
@@ -33,4 +34,7 @@ class AWSClass {
 	}
 }
 
-exports.AWSClass = AWSClass;
+module.exports = {
+	AWSClass,
+	regions,
+}

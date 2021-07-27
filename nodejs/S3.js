@@ -1,4 +1,4 @@
-const {AWSClass} = require('./');
+const {AWSClass} = require('./index');
 
 class S3 extends AWSClass {
 	constructor(region, apiVersion = '2006-03-01') {
