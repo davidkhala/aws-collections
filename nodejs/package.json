@@ -2,14 +2,12 @@
   "name": "khala-aws",
   "version": "0.0.0",
   "dependencies": {
-    "aws-sdk": "^2.582.0",
-    "aws-xray-sdk": "^2.5.0"
-  },
-  "scripts": {
+    "aws-sdk": "latest",
+    "aws-xray-sdk": "latest"
   },
   "devDependencies": {
-    "khala-nodeutils": "^0.8.1",
-    "khala-logger": "^0.0.1",
+    "khala-nodeutils": "latest",
+    "khala-logger": "latest",
     "mocha": "latest"
   }
 }
