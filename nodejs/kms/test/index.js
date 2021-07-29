@@ -1,17 +1,21 @@
-const {KMS, SigningAlgorithm} = require('../kms');
+
+const {KMS} = require('../kms');
 const assert = require('assert');
+const {Uint8Array2String, String2Uint8Array}= require('khala-light-util')
 describe('kms', () => {
 	const keyId = 'mrk-6b3d47c784234a37975d924aaadb54a5';
-	it('smoke', async () => {
-
-		new KMS(keyId);
+	const kms = new KMS(keyId);
+	it('connect', async () => {
+		const result = await kms.connect();
+		console.debug(result);
 	});
-	it('sign', async () => {
-		const kms = new KMS(keyId);
+	it('sign and verify', async () => {
+
 		const message = 'abc';
-		const result = await kms.sign(message, undefined, SigningAlgorithm.ECDSA_SHA_256);
-		const expected = '3046022100d283dfd1b0230a520435ea603597e8c404927cfa85ea671c75f80b4a8d392c5b022100c4870b24c9ca875cb97c6a41ecfbc5b1c00dacc3c74812a55b6c42c20d9f6cc9';
-		// TODO signature not consistent
-		assert.strictEqual(result, expected);
+		await kms.connect();
+		const signature = await kms.sign(message);
+		assert.deepStrictEqual(String2Uint8Array(Uint8Array2String(signature)), signature);
+		const isValid = await kms.verify(message, signature);
+		assert.ok(isValid);
 	});
 });

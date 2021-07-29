@@ -4,5 +4,8 @@
   "dependencies": {
     "@aws-sdk/client-kms": "latest",
     "@davidkhala/aws-format": "latest"
+  },
+  "devDependencies": {
+    "khala-light-util": "latest"
   }
 }

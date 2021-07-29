@@ -38,15 +38,24 @@ class KMS extends AWSClass {
 		Object.assign(this, {kms, KeyId});
 	}
 
+	async connect() {
+		const {kms, KeyId} = this;
+		const {KeyMetadata} = await kms.describeKey({KeyId});
+		const {SigningAlgorithms: [signingAlgorithm]} = KeyMetadata;
+		this.SigningAlgorithm = signingAlgorithm;
+		return KeyMetadata;
+	}
+
 	/**
 	 *
 	 * @param {string} message
 	 * @param {MessageType} [messageType]
-	 * @param {SigningAlgorithm} signingAlgorithm
+	 * @param {SigningAlgorithm} [signingAlgorithm]
 	 * @return {SignResponse}
 	 */
-	async sign(message, messageType = MessageType.raw, signingAlgorithm) {
+	async sign(message, messageType = MessageType.raw, signingAlgorithm = this.SigningAlgorithm) {
 		const {kms, KeyId} = this;
+
 		const params = {
 			KeyId,
 			Message: Buffer.from(message),
@@ -55,7 +64,24 @@ class KMS extends AWSClass {
 		};
 		const {Signature} = await kms.sign(params);
 
-		return Buffer.from(Signature).toString('hex');
+		return Signature;
+	}
+
+	/**
+	 *
+	 * @return {Promise<true>}
+	 */
+	async verify(message, signature, messageType = MessageType.raw, signingAlgorithm = this.SigningAlgorithm) {
+		const {kms, KeyId} = this;
+
+		const {SignatureValid} = await kms.verify({
+			KeyId,
+			Message: Buffer.from(message),
+			Signature: signature,
+			MessageType: messageType,
+			SigningAlgorithm: signingAlgorithm,
+		});
+		return SignatureValid;
 	}
 
 	disconnect() {
