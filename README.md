@@ -21,5 +21,3 @@
 - no way to subscribe listener,only polling to receiveMessage is supported [pull] like kafka
 - [message lag] If the number of messages in the queue is extremely small, you might not receive any messages in a particular ReceiveMessage response. If this happens, repeat the request.
 
-## TODO
-- when migrate to use mocha.js authentication is required. 
