@@ -11,3 +11,10 @@
 
 ## workflow
 1. `aws configure sso`
+2. login to your aws SSO account in web browser
+3.  ```
+    CLI default client Region [None]: ap-southeast-1                                                         
+    CLI default output format [None]:                                                                        
+    CLI profile name [AdministratorAccess-606262941110]: default    
+    ```
+4. Done
