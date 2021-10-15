@@ -1,4 +1,4 @@
-# khala-aws
+# aws-collections
 
 ## Notes
 - apply IAM role(with 'AdministratorAccess') to EC2, otherwise `CredentialsError: Missing credentials in config`
