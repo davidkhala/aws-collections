@@ -1,0 +1,6 @@
+# Amazon Elastic Container Service
+
+
+## Handicap
+- It’s horrifyingly complicated. Even after all the infrastructure is set up, we need to create a task definition, a service, and a container definition. If simplicity is what you’re looking for, ECS is not it.
+  - https://technologyconversations.com/2020/08/04/google-cloud-run-gcr-vs-azure-container-instances-aci-vs-aws-ecs-with-fargate/
