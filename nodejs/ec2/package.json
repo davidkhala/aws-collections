@@ -5,5 +5,11 @@
     "@aws-sdk/client-ec2": "latest",
     "@davidkhala/aws-format": "latest"
   },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "devDependencies": {
+    "mocha": "latest"
+  },
   "type": "module"
 }

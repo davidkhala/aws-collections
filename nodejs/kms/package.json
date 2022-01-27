@@ -5,8 +5,12 @@
     "@aws-sdk/client-kms": "latest",
     "@davidkhala/aws-format": "latest"
   },
+  "scripts": {
+    "test": "mocha test"
+  },
   "devDependencies": {
-    "@davidkhala/light": "latest"
+    "@davidkhala/light": "latest",
+    "mocha": "latest"
   },
   "type": "module"
 }
