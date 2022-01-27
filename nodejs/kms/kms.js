@@ -26,21 +26,35 @@ export const SigningAlgorithm = {
 
 
 export class AWSKMS extends AWSClass {
+
+	constructor() {
+		super(process.env);
+		this.buildClient(KMS);
+	}
+
+
+	/**
+	 * @return {Promise<KeyListEntry[]>}
+	 */
+	async list() {
+		const {client} = this;
+		const {Keys} = await client.listKeys({});
+		return Keys;
+	}
+
 	/**
 	 *
 	 * @param {string} KeyId key id of aws KMS
 	 */
-	constructor(KeyId) {
-		super(process.env);
-		this.buildClient(KMS);
-		this.KeyId = KeyId;
-	}
+	async as(KeyId) {
+		const {client} = this;
+		const {KeyMetadata} = await client.describeKey({KeyId});
 
-	async connect() {
-		const {kms, KeyId} = this;
-		const {KeyMetadata} = await kms.describeKey({KeyId});
-		const {SigningAlgorithms: [signingAlgorithm]} = KeyMetadata;
-		this.SigningAlgorithm = signingAlgorithm;
+		if (Array.isArray(KeyMetadata.SigningAlgorithms)) {
+			this.SigningAlgorithm = KeyMetadata.SigningAlgorithms[0];
+		}
+
+		this.KeyId = KeyId;
 		return KeyMetadata;
 	}
 
@@ -82,4 +96,32 @@ export class AWSKMS extends AWSClass {
 		return SignatureValid;
 	}
 
+	async create({KeyUsage, KeySpec} = {}) {
+		const {KeyMetadata} = await this.client.createKey({KeySpec, KeyUsage});
+		// clean undefined
+		for (const [entry, value] of Object.entries(KeyMetadata)) {
+			if (!value) {
+				delete KeyMetadata[entry];
+			}
+		}
+		return KeyMetadata;
+	}
+
+	async remove(KeyId, PendingWindowInDays = 7) {
+
+		if (PendingWindowInDays < 7) {
+			PendingWindowInDays = 7;
+		}
+		const {DeletionDate, KeyId: Arn} = await this.client.scheduleKeyDeletion({
+			KeyId,
+			PendingWindowInDays
+		});
+		return {DeletionDate, Arn};
+	}
+
+	disconnect() {
+		super.disconnect();
+		delete this.SigningAlgorithm;
+		delete this.KeyId;
+	}
 }

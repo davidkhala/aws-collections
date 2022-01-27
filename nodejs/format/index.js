@@ -16,6 +16,7 @@ export class AWSClass {
 		this.client = new ClientClass({credentials, region});
 		return this.client;
 	}
+
 	disconnect() {
 		this.client.destroy();
 	}
