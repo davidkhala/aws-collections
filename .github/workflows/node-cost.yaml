@@ -1,14 +1,14 @@
-name: nodejs test
-on: push
+name: expense test (nodejs)
+on: workflow_dispatch
 env:
   accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
   secretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
 jobs:
-  ec2:
+  kms:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: nodejs/ec2
+        working-directory: nodejs/kms
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
