@@ -1,0 +1,9 @@
+{
+  "name": "@davidkhala/aws-ec2",
+  "version": "1.0.0",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "latest",
+    "@davidkhala/aws-format": "latest"
+  },
+  "type": "module"
+}

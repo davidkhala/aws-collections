@@ -1,15 +1,16 @@
-const {KMS: KMSClass} = require('@aws-sdk/client-kms');
-const {AWSClass} = require('@davidkhala/aws-format');
+import {KMS} from '@aws-sdk/client-kms';
+import {AWSClass} from '@davidkhala/aws-format';
+
 /**
  * @enum
  */
-const MessageType = {
+export const MessageType = {
 	raw: 'RAW', digest: 'DIGEST'
 };
 /**
  * @enum
  */
-const SigningAlgorithm = {
+export const SigningAlgorithm = {
 	RSASSA_PSS_SHA_256: 'RSASSA_PSS_SHA_256',
 	RSASSA_PSS_SHA_384: 'RSASSA_PSS_SHA_384',
 	RSASSA_PSS_SHA_512: 'RSASSA_PSS_SHA_512',
@@ -24,18 +25,15 @@ const SigningAlgorithm = {
 };
 
 
-class KMS extends AWSClass {
+export class AWSKMS extends AWSClass {
 	/**
 	 *
-	 * @param {string} KeyId
-	 * @param {string} region
+	 * @param {string} KeyId key id of aws KMS
 	 */
-	constructor(KeyId, region = 'ap-east-1') {
-		const {secretAccessKey, accessKeyId} = process.env;
-		super({secretAccessKey, accessKeyId});
-		const {credentials} = this;
-		const kms = new KMSClass({credentials, region});
-		Object.assign(this, {kms, KeyId});
+	constructor(KeyId) {
+		super(process.env);
+		this.buildClient(KMS);
+		this.KeyId = KeyId;
 	}
 
 	async connect() {
@@ -69,7 +67,7 @@ class KMS extends AWSClass {
 
 	/**
 	 *
-	 * @return {Promise<true>}
+	 * @return {Promise<boolean>}
 	 */
 	async verify(message, signature, messageType = MessageType.raw, signingAlgorithm = this.SigningAlgorithm) {
 		const {kms, KeyId} = this;
@@ -84,11 +82,4 @@ class KMS extends AWSClass {
 		return SignatureValid;
 	}
 
-	disconnect() {
-		this.kms.destroy();
-	}
 }
-
-module.exports = {
-	KMS, MessageType, SigningAlgorithm
-};

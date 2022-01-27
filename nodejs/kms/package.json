@@ -6,6 +6,7 @@
     "@davidkhala/aws-format": "latest"
   },
   "devDependencies": {
-    "khala-light-util": "latest"
-  }
+    "@davidkhala/light": "latest"
+  },
+  "type": "module"
 }
