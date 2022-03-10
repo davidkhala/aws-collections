@@ -1,5 +1,5 @@
-ec2messages.<region>.amazonaws.com
+ec2messages.ap-east-1.amazonaws.com # 13.248.40.133
 
-ssm.<region>.amazonaws.com
+ssm.ap-east-1.amazonaws.com # 13.248.36.5
 
-ssmmessages.<region>.amazonaws.com
+ssmmessages.ap-east-1.amazonaws.com # 13.248.40.135
