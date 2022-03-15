@@ -1,5 +1,5 @@
 
-## SSM Endpoint
+## Endpoint
 
 ec2messages.ap-east-1.amazonaws.com # 13.248.40.133
 
