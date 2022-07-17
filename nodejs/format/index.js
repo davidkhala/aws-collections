@@ -1,4 +1,4 @@
-export class AWSClass {
+export default class AWSClass {
 	/**
 	 *
 	 * @param {string} accessKeyId your AWS access key ID.
@@ -11,7 +11,7 @@ export class AWSClass {
 		this.region = region;
 	}
 
-	buildClient(ClientClass) {
+	as(ClientClass) {
 		const {credentials, region} = this;
 		this.client = new ClientClass({credentials, region});
 		return this.client;
@@ -19,5 +19,6 @@ export class AWSClass {
 
 	disconnect() {
 		this.client.destroy();
+		delete this.client
 	}
 }

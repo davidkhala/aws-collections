@@ -1,6 +1,6 @@
-const {AWSClass} = require('../format');
+import {AWSClass} from '@davidkhala/aws-format';
 
-class S3 extends AWSClass {
+export default class S3 extends AWSClass {
 	constructor(region, apiVersion = '2006-03-01') {
 		super();
 		this.updateRegion(region);
@@ -55,4 +55,4 @@ class S3 extends AWSClass {
 	}
 }
 
-module.exports = S3;
+

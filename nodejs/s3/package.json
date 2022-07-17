@@ -1,0 +1,11 @@
+{
+  "name": "@davidkhala/s3",
+  "version": "0.0.0",
+  "dependencies": {
+    "@davidkhala/aws-format": "latest"
+  },
+  "type": "module",
+  "devDependencies": {
+    "mocha": "latest"
+  }
+}
