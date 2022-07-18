@@ -5,10 +5,10 @@ describe('ping', function () {
 	this.timeout(0);
 	const accessKeyId = 'AKIAY2KAWKW3ALRO7673';
 	const {secretAccessKey} = process.env;
-	const store = new AWSClass({accessKeyId, secretAccessKey});
+	const store = new AWSClass();
 	store.as(EC2Client);
 
-	it('ping with dryrun', async () => {
+	it('ping with dry-run', async () => {
 		await store.ping();
 
 

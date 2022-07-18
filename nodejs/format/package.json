@@ -2,8 +2,10 @@
   "name": "@davidkhala/aws-format",
   "version": "0.1.0-alpha.0",
   "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "latest"
+  },
   "devDependencies": {
-    "@aws-sdk/client-ec2": "latest",
     "mocha": "latest"
   },
   "publishConfig": {

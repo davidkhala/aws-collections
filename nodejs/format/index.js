@@ -9,7 +9,10 @@ export default class AWSClass {
 	 */
 	constructor({accessKeyId, secretAccessKey, region = 'ap-east-1'} = process.env) {
 		// see in https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-kms/modules/credentials.html
-		this.credentials = {accessKeyId, secretAccessKey};
+		if (accessKeyId && secretAccessKey) {
+			this.credentials = {accessKeyId, secretAccessKey};
+		}
+
 		this.region = region;
 	}
 
@@ -31,12 +34,7 @@ export default class AWSClass {
 		try {
 			await this.sendCommand({DryRun: true}, DescribeRegionsCommand);
 		} catch (e) {
-
-			const {
-				$fault,
-				message,
-				name,
-			} = e;
+			const {$fault, message, name,} = e;
 			if (name === 'DryRunOperation' &&
 				message === 'Request would have succeeded, but DryRun flag is set.' &&
 				$fault === 'client') {
