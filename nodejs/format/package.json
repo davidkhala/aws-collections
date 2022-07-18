@@ -5,5 +5,8 @@
   "devDependencies": {
     "@aws-sdk/client-ec2": "latest",
     "mocha": "latest"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
