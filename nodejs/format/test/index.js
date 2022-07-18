@@ -6,6 +6,5 @@ describe('from cloud9 or instance principal', function () {
 
 	it('ping with dry-run', async () => {
 		await store.ping();
-
 	});
 });
