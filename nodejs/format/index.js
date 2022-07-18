@@ -1,12 +1,12 @@
-import {EC2Client, DescribeRegionsCommand} from '@aws-sdk/client-ec2';
+import {STSClient, GetCallerIdentityCommand} from '@aws-sdk/client-sts';
 
 export default class AWSClass {
 	/**
-	 *
-	 * @param {string} accessKeyId your AWS access key ID.
-	 * @param {string} secretAccessKey your AWS secret access key.
-	 * @param {string} [region] AWS region code
-	 */
+     *
+     * @param {string} accessKeyId your AWS access key ID.
+     * @param {string} secretAccessKey your AWS secret access key.
+     * @param {string} [region] AWS region code
+     */
 	constructor({accessKeyId, secretAccessKey, region = 'ap-east-1'} = process.env) {
 		// see in https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-kms/modules/credentials.html
 		if (accessKeyId && secretAccessKey) {
@@ -30,20 +30,9 @@ export default class AWSClass {
 	}
 
 	async ping() {
-		this.as(EC2Client);
-		try {
-			await this.sendCommand({DryRun: true}, DescribeRegionsCommand);
-		} catch (e) {
-			const {$fault, message, name,} = e;
-			if (name === 'DryRunOperation' &&
-				message === 'Request would have succeeded, but DryRun flag is set.' &&
-				$fault === 'client') {
-				return true;
-			} else {
-				throw e;
-			}
-		}
-
+		this.as(STSClient);
+		const {UserId, Account, Arn} = await this.sendCommand({}, GetCallerIdentityCommand);
+		return {UserId, Account, Arn};
 	}
 
 	disconnect() {

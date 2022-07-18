@@ -6,7 +6,7 @@
     "test": "mocha test"
   },
   "dependencies": {
-    "@aws-sdk/client-ec2": "latest"
+    "@aws-sdk/client-sts": "latest"
   },
   "devDependencies": {
     "mocha": "latest"
