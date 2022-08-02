@@ -1,10 +1,10 @@
-import {EC2} from '@aws-sdk/client-ec2';
+import {EC2 as EC2Client} from '@aws-sdk/client-ec2';
 import {AWSClass} from '@davidkhala/aws-format';
 
-export class AWSEC2 extends AWSClass {
+export default class EC2 extends AWSClass {
 	constructor() {
 		super();
-		this.buildClient(EC2);
+		this.as(EC2Client);
 	}
 
 }
