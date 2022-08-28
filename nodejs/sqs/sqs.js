@@ -1,14 +1,12 @@
-const {AWSClass} = require('../format');
+import AWSClass from '@davidkhala/aws-format';
+import {SQSClient, SendMessageCommand, CreateQueueCommand, ListQueuesCommand} from '@aws-sdk/client-sqs';
 
-class SQS extends AWSClass {
-	/**
-	 *
-	 * @param {AWSRegion} region
-	 */
-	constructor(region) {
-		super();
-		this.updateRegion(region);
-		this.sqs = new this.AWS.SQS({apiVersion: '2012-11-05'});
+export class SQS extends AWSClass {
+
+	constructor(param) {
+		super(param);
+		this.as(SQSClient);
+
 	}
 
 	/**
@@ -23,10 +21,11 @@ class SQS extends AWSClass {
 			Attributes: {}
 		};
 		if (FifoQueue) {
-			opts.Attributes.FifoQueue = !!FifoQueue;
+			opts.Attributes.FifoQueue = true;
 			opts.QueueName = `${QueueName}.fifo`;
 		}
-		const createResult = await this.sqs.createQueue(opts).promise();
+
+		const createResult = await this.sendCommand(opts, CreateQueueCommand);
 		return createResult.QueueUrl;
 	}
 
@@ -54,7 +53,7 @@ class SQS extends AWSClass {
 	 */
 	async clean(QueueUrl) {
 		const opts = {QueueUrl};
-		await this.sqs.purgeQueue(opts).promise();
+		await this.purgeQueue(opts).promise();
 	}
 
 	/**
@@ -62,7 +61,8 @@ class SQS extends AWSClass {
 	 * @return {Promise<String[]>}
 	 */
 	async list() {
-		const listResult = await this.sqs.listQueues().promise();
+		const listResult = await this.sendCommand({}, ListQueuesCommand);
+
 		const {QueueUrls} = listResult;
 		return QueueUrls;
 	}
@@ -121,4 +121,3 @@ class SQS extends AWSClass {
 	}
 }
 
-exports.SQS = SQS;

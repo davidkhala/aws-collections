@@ -1,0 +1,13 @@
+{
+  "name": "@davidkhala/sqs",
+  "version": "0.0.0",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "latest",
+    "@davidkhala/aws-format": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "@davidkhala/light": "latest"
+  },
+  "type": "module"
+}
