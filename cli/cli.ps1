@@ -6,7 +6,7 @@ function Get-Version {
     Get-AWSPowerShellVersion
 }
 function Profile-Login {
-    # TODO
+    
     param (
         [Parameter(Position = 0, Mandatory)]
         [string]$Access,
@@ -14,8 +14,9 @@ function Profile-Login {
         [string]$Secret
     )
     Set-DefaultAWSRegion -Region ap-east-1
-    Set-AWSCredential -AccessKey $Access -SecretKey $Secret
+    Set-AWSCredential -ProfileLocation $home\.aws\credentials -AccessKey $Access -SecretKey $Secret
     Get-S3Bucket
+    Get-AWSCredential -ListProfileDetail
 }
 function Session-Login {
     # The credential profile that results from running this command wound not be stored locally
