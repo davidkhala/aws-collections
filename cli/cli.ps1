@@ -1,3 +1,3 @@
 function Install-CLI {
-    Install-Module -name AWSPowerShell.NetCore
+    Install-Module -name AWSPowerShell.NetCore -Force
 }
