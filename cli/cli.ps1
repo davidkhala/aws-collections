@@ -6,10 +6,15 @@ function Get-Version {
     Get-AWSPowerShellVersion
 }
 function Profile-Login {
-    # TODO 
+    # TODO
+    param (
+        [Parameter(Position = 0, Mandatory)]
+        [string]$Access,
+        [Parameter(Position = 1, Mandatory)]
+        [string]$Secret
+    )
     Set-DefaultAWSRegion -Region ap-east-1
-
-    Set-AWSCredential -AccessKey $1 -SecretKey $2
+    Set-AWSCredential -AccessKey $Access -SecretKey $Secret
     Get-S3Bucket
 }
 function Session-Login {
