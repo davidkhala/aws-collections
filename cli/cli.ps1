@@ -6,6 +6,6 @@ function Get-Version {
     Get-AWSPowerShellVersion
 }
 function Configure-Profile {
-    Initialize-AWSDefaultConfiguration
+    Initialize-AWSDefaultConfiguration -Region ap-east-1
     Get-S3Bucket
 }
