@@ -3,7 +3,7 @@
 
 ## Dependency:
 - your AWS SSO start URL
-  - https://david-khala.awsapps.com/start
+  - `https://david-khala.awsapps.com/start`
 - the AWS Region that hosts the AWS SSO directory
   - `ap-east-1`
 - Map your SSO user/group towards your aws account
@@ -17,4 +17,7 @@
     CLI default output format [None]:                                                                        
     CLI profile name [AdministratorAccess-606262941110]: default    
     ```
-4. Done
+4. Done, you can validate by 
+  ```
+  aws s3 ls
+  ```
