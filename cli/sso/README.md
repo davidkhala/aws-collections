@@ -18,6 +18,6 @@
     CLI profile name [AdministratorAccess-606262941110]: default    
     ```
 4. Done, you can validate by 
-  ```
-  aws s3 ls
-  ```
+    ```
+    aws s3 ls
+    ```
