@@ -18,7 +18,7 @@ describe('sqs', function () {
 	});
 	it('destroy', async () => {
 		let queues = await sqs.list();
-		const message = Message.FromSQS(queues[0], sqs)
+		const message = Message.FromSQS(queues[0], sqs);
 		await message.destroy();
 		queues = await sqs.list();
 		console.debug('immediate after deletion', queues);
@@ -30,6 +30,19 @@ describe('sqs', function () {
 	it('create', async () => {
 		const QueueUrl = await sqs.create(queue);
 		console.info(QueueUrl);
+	});
+	it('create fifo', async () => {
+		const QueueUrl = await sqs.create(queue, true);
+		console.info(QueueUrl);
+
+	});
+	it('message fifo', async () => {
+		const message = new Message(queue);
+		message.asFIFO();
+		await message.send('fifo message');
+
+		const Messages = await message.receive();
+		console.info(Messages);
 	});
 	it('message', async () => {
 		const message = new Message(queue);

@@ -28,7 +28,7 @@ export class SQS extends AWSClass {
 	/**
 	 *
 	 * @param {string} QueueName
-	 * @param {boolean} [isFifo] Designates a queue as FIFO, When you set this attribute, you must also provide the `MessageGroupId` for your messages explicitly.
+	 * @param {boolean} [isFifo] Designates a queue as FIFO
 	 * @return {Promise<String>} QueueUrl
 	 */
 	async create(QueueName, isFifo) {
@@ -38,6 +38,7 @@ export class SQS extends AWSClass {
 		};
 		if (isFifo) {
 			opts.Attributes.FifoQueue = true;
+			opts.Attributes.ContentBasedDeduplication = true;
 			opts.QueueName = `${QueueName}.fifo`;
 		}
 
@@ -70,10 +71,25 @@ export class SQS extends AWSClass {
 }
 
 export class Message extends AWSClass {
+	/**
+	 *
+	 * @param QueueUrl or queue name
+	 * @param param
+	 */
 	constructor(QueueUrl, param) {
 		super(param);
 		this.QueueUrl = QueueUrl;
 		this.as(SQSClient);
+	}
+
+	asFIFO() {
+		if (!this.isFIFO()) {
+			this.QueueUrl = this.QueueUrl + '.fifo';
+		}
+	}
+
+	isFIFO() {
+		return this.QueueUrl.endsWith('.fifo');
 	}
 
 	static FromSQS(QueueUrl, instance) {
@@ -81,23 +97,26 @@ export class Message extends AWSClass {
 	}
 
 	/**
-	 * TODO MessageGroupId only work for fifo
 	 * @param {string} message
 	 * @param {number} [timeout] in milliseconds
+	 * @param [groupId] fifo only, invalid for standard queue
 	 * @return {Promise<SQS.SendMessageResult>}
 	 */
-	async send(message, timeout) {
+	async send(message, {timeout = 0, groupId = 'default'} = {}) {
 		const opts = {
 			MessageBody: message,
 			QueueUrl: this.QueueUrl,
 			DelaySeconds: timeout / 1000,
 		};
+		if (this.isFIFO()) {
+			opts.MessageGroupId = groupId;
+		}
 		return await this.sendCommand(opts, SendMessageCommand);
 	}
 
 	/**
 	 *
-	 * @param {string} ReceiptHandle An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
+	 * @param {string} ReceiptHandle An identifier associated with the act of receiving the message.
 	 */
 	async delete(ReceiptHandle) {
 		const opts = {
