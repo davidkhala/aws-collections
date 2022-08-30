@@ -21,3 +21,4 @@
     ```
     aws s3 ls
     ```
+If session timeout, refresh by `aws sso login`
