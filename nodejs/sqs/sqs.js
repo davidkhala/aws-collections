@@ -18,13 +18,6 @@ export class SQS extends AWSClass {
 		this.as(SQSClient);
 	}
 
-	async ping() {
-		const result = await super.ping();
-		// revert
-		this.as(SQSClient);
-		return result;
-	}
-
 	/**
 	 *
 	 * @param {string} QueueName
@@ -100,7 +93,6 @@ export class Message extends AWSClass {
 	 * @param {string} message
 	 * @param {number} [timeout] in milliseconds
 	 * @param [groupId] fifo only, invalid for standard queue
-	 * @return {Promise<SQS.SendMessageResult>}
 	 */
 	async send(message, {timeout = 0, groupId = 'default'} = {}) {
 		const opts = {

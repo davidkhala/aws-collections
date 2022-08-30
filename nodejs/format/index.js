@@ -2,11 +2,11 @@ import {STSClient, GetCallerIdentityCommand} from '@aws-sdk/client-sts';
 
 export default class AWSClass {
 	/**
-     *
-     * @param {string} accessKeyId your AWS access key ID.
-     * @param {string} secretAccessKey your AWS secret access key.
-     * @param {string} [region] AWS region code
-     */
+	 *
+	 * @param {string} accessKeyId your AWS access key ID.
+	 * @param {string} secretAccessKey your AWS secret access key.
+	 * @param {string} [region] AWS region code
+	 */
 	constructor({accessKeyId, secretAccessKey, region = 'ap-east-1'} = process.env) {
 		// see in https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-kms/modules/credentials.html
 		if (accessKeyId && secretAccessKey) {
@@ -30,8 +30,10 @@ export default class AWSClass {
 	}
 
 	async ping() {
-		this.as(STSClient);
-		const {UserId, Account, Arn} = await this.sendCommand({}, GetCallerIdentityCommand);
+		const stsClient = new STSClient(this);
+		const command = new GetCallerIdentityCommand({});
+		const {UserId, Account, Arn} = await stsClient.send(command);
+		stsClient.destroy();
 		return {UserId, Account, Arn};
 	}
 
