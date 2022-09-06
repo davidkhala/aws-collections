@@ -1,6 +1,6 @@
 {
   "name": "@davidkhala/aws-ec2",
-  "version": "1.0.0",
+  "version": "0.0.0-alpha",
   "dependencies": {
     "@aws-sdk/client-ec2": "latest",
     "@davidkhala/aws-format": "latest"
@@ -11,5 +11,8 @@
   "devDependencies": {
     "mocha": "latest"
   },
-  "type": "module"
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  }
 }

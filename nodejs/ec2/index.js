@@ -1,10 +1,15 @@
-import {EC2Client, DescribeInstancesCommand} from '@aws-sdk/client-ec2';
+import {EC2Client, DescribeInstancesCommand, DescribeRegionsCommand} from '@aws-sdk/client-ec2';
 import AWSClass from '@davidkhala/aws-format';
 
 export default class EC2 extends AWSClass {
 	constructor() {
 		super();
 		this.as(EC2Client);
+	}
+
+	async regions(all) {
+		const {Regions} = await this.sendCommand({AllRegions: !!all}, DescribeRegionsCommand);
+		return Regions.map(({RegionName}) => RegionName);
 	}
 
 	/**
