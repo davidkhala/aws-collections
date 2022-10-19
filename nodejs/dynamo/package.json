@@ -1,0 +1,13 @@
+{
+  "name": "@davidkhala/dynamo",
+  "version": "0.0.0",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "latest",
+    "@davidkhala/aws-format": "latest",
+    "@davidkhala/light": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest"
+  },
+  "type": "module"
+}

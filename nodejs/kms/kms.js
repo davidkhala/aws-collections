@@ -1,5 +1,5 @@
-import {KMS} from '@aws-sdk/client-kms';
-import {AWSClass} from '@davidkhala/aws-format';
+import {KMS, KMSClient} from '@aws-sdk/client-kms';
+import AWSClass from '@davidkhala/aws-format/index.js';
 
 /**
  * @enum
@@ -28,8 +28,8 @@ export const SigningAlgorithm = {
 export class AWSKMS extends AWSClass {
 
 	constructor() {
-		super(process.env);
-		this.buildClient(KMS);
+		super();
+		super.as(KMS);
 	}
 
 
