@@ -7,13 +7,14 @@ Prerequisite
 
 # Install
 msiexec /i https://amazoncloudwatch-agent.s3.amazonaws.com/windows/amd64/latest/amazon-cloudwatch-agent.msi
-# Configure
-# TODO aws config
+# Configure, the output config.json is stored in current directory
 & "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-config-wizard"
 # Start
 
 Set-ExecutionPolicy RemoteSigned # need privilege
-& "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a fetch-config -m onPremise -s -c file:configuration-file-path
+# TODO:  Please make sure the credentials and region set correctly on your hosts.
+# Refer to http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html
+& "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a fetch-config -m onPremise -s -c file:config.json
 
 ```
 
