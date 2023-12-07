@@ -4,7 +4,8 @@ Prerequisite
 - [gpg](https://gpg4win.org/)
 
 ```Powershell
-
+# Prerequisite Install
+msiexec /i https://files.gpg4win.org/gpg4win-4.2.0.exe
 # Install
 msiexec /i https://amazoncloudwatch-agent.s3.amazonaws.com/windows/amd64/latest/amazon-cloudwatch-agent.msi
 # Configure
