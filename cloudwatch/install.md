@@ -9,6 +9,7 @@ wget https://amazoncloudwatch-agent.s3.amazonaws.com/windows/amd64/latest/amazon
 # Install
 msiexec /i amazon-cloudwatch-agent.msi
 # Start
+Set-ExecutionPolicy RemoteSigned # need privilege
 & "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a fetch-config -m onPremise -s -c file:configuration-file-path
 
 ```
