@@ -3,6 +3,8 @@
 Prerequisite
 - [gpg](https://gpg4win.org/)
   - https://files.gpg4win.org/gpg4win-4.2.0.exe
+- pypi: toml-cli
+  - 
 ```Powershell
 
 # Install
