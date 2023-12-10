@@ -20,5 +20,8 @@ toml set --toml-path C:\ProgramData\Amazon\AmazonCloudWatchAgent\common-config.t
 & "C:\Program Files\Amazon\AmazonCloudWatchAgent\amazon-cloudwatch-agent-ctl.ps1" -a fetch-config -m onPremise -s -c file:.\config.json # need privilege
 
 ```
+If success, you can see a last line in console as `AmazonCloudWatchAgent has been started`
 
+Then you can view the metrics that you collect with the CloudWatch agent in CloudWatch.
+- The default namespace is `CWAgent`
 
