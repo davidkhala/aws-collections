@@ -1,27 +1,17 @@
-import {AWSClass} from '@davidkhala/aws-format';
+import AWSClass from '@davidkhala/aws-format/index.js';
+import {S3} from '@aws-sdk/client-s3';
 
-export default class S3 extends AWSClass {
-	constructor(region, apiVersion = '2006-03-01') {
+export default class S3Client extends AWSClass {
+	constructor() {
 		super();
-		this.updateRegion(region);
-		this.region = region;
-		this.s3 = new this.AWS.S3({apiVersion});
-		this.endpoint = this.s3.endpoint;
+		this.as(S3);
 	}
 
-	/**
-	 * Create a bucket in this AWS Region.
-	 * @param Bucket
-	 * @return {Promise<PromiseResult<S3.CreateBucketOutput, AWSError>>}
-	 */
 	async createBucket(Bucket) {
 		const opts = {
 			Bucket,
-			CreateBucketConfiguration: {
-				LocationConstraint: this.region
-			}
 		};
-		return this.s3.createBucket(opts).promise();
+		return this.client.createBucket(opts);
 	}
 
 	/**
@@ -30,15 +20,14 @@ export default class S3 extends AWSClass {
 	 * @return {Promise<PromiseResult<{}, AWSError>>}
 	 */
 	async deleteBucket(Bucket) {
-		return this.s3.deleteBucket({Bucket}).promise();
+		return this.client.deleteBucket({Bucket});
 	}
 
 	/**
 	 * List all of your available buckets in this AWS Region.
-	 * @return {Promise<PromiseResult<S3.ListBucketsOutput, AWSError>>}
 	 */
 	async listBuckets() {
-		return this.s3.listBuckets().promise();
+		return this.client.listBuckets({});
 	}
 
 
@@ -48,10 +37,9 @@ export default class S3 extends AWSClass {
 	 * @param {string} Bucket
 	 * @param {string} Key
 	 * @param {byte[]|string|ReadableStream|Blob} data Buffer, Typed Array, Blob, String, ReadableStream
-	 * @returns {Promise<ManagedUpload.SendData>}
 	 */
 	async upload(Bucket, Key, data) {
-		return this.s3.upload({Bucket, Key, Body: data}).promise();
+		return this.client.upload({Bucket, Key, Body: data});
 	}
 }
 

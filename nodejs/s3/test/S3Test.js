@@ -1,6 +1,6 @@
 import S3 from '../s3.js';
 
-const region = 'ap-southeast-1';
+const region = 'ap-east-1';
 
 const s3 = new S3(region);
 describe('S3', () => {

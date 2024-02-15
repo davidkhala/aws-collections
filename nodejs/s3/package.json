@@ -2,7 +2,8 @@
   "name": "@davidkhala/s3",
   "version": "0.0.0",
   "dependencies": {
-    "@davidkhala/aws-format": "latest"
+    "@davidkhala/aws-format": "latest",
+    "@aws-sdk/client-s3": "latest"
   },
   "type": "module",
   "devDependencies": {

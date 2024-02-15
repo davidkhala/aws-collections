@@ -1,7 +1,8 @@
 import {AWSKMS} from '../kms.js';
 import assert from 'assert';
 
-describe('kms', () => {
+describe('kms', function () {
+	this.timeout(0)
 
 	const kms = new AWSKMS();
 	it('list and inspect', async () => {
