@@ -145,7 +145,7 @@ export class SQS extends AWSClass {
 	 */
 	async destroy() {
 		// actual url is required by DeleteQueueCommand
-		const QueueUrl = await this.getQueueUrl(this.QueueUrl);
+		const {QueueUrl} = this;
 		await this.sendCommand({QueueUrl}, DeleteQueueCommand);
 		this.logger && this.logger.warn('You must wait 60 seconds after deleting a queue before you can create another queue with the same name.');
 	}

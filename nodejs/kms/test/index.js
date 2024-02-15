@@ -8,10 +8,12 @@ describe('kms', () => {
 		const result = await kms.list();
 		for (const {KeyId} of result) {
 			const info = await kms.as(KeyId);
-			const {KeyManager} = info;
+			const {KeyManager,KeyState } = info;
 			if (KeyManager !== 'AWS') {
 				console.info(info);
-				await kms.remove(KeyId);
+				if(KeyState!== 'PendingDeletion'){
+					await kms.remove(KeyId);
+				}
 			}
 		}
 	});
