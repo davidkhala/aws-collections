@@ -5,13 +5,16 @@ env:
   secretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
 jobs:
   ec2:
+    strategy:
+      matrix:
+        module: [ ec2, kms, dynamo, s3, sqs,xray ]
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: nodejs/ec2
+        working-directory: nodejs/${{matrix.module}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
       - run: npm install
       - run: npm test
 

@@ -1,6 +1,7 @@
 import {DynamoManager} from '../manage.js';
 
 describe('DynamoManager', function () {
+	this.timeout(0)
 	const tableName = 'test';
 	const dynamoManager = new DynamoManager(tableName);
 	const sample = [
@@ -9,7 +10,7 @@ describe('DynamoManager', function () {
 	];
 
 	it('create', async () => {
-		await dynamoManager.create(sample);
+		await dynamoManager.createSync(sample);
 	});
 	it('get', async () => {
 		const data = await dynamoManager.get();

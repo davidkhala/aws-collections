@@ -1,5 +1,5 @@
 import {DynamoDBClient, DescribeTableCommand, CreateTableCommand, DeleteTableCommand} from '@aws-sdk/client-dynamodb';
-
+import assert from 'assert'
 
 describe('native way', function () {
 	this.timeout(0);
@@ -40,14 +40,29 @@ describe('native way', function () {
 			},
 		};
 		const data = await client.send(new CreateTableCommand(params));
-		console.log('Table Created', data);
+		console.log('Table Created', data.TableDescription);
 	});
-	it('get table', async () => {
+	it( 'get table', async () => {
 		const cmd = new DescribeTableCommand({TableName});
 		const result = await client.send(cmd);
-		console.debug(result);
+		console.debug(result.Table);
+
 	});
 	it('delete table', async () => {
+		// wait until
+		const cmd = new DescribeTableCommand({TableName});
+
+		async function waitUntilReady(){
+			const {Table:{TableStatus}} = await client.send(cmd);
+			if (TableStatus==='CREATING'){
+				return await waitUntilReady()
+			}else {
+				assert.equal(TableStatus, 'ACTIVE')
+				return TableStatus
+			}
+		}
+
+		await waitUntilReady()
 
 		await client.send(new DeleteTableCommand({TableName}));
 	});
