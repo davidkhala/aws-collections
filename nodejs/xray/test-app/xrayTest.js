@@ -1,5 +1,5 @@
-const {useXRay, expressError} = require('../xray');
-const {run} = require('khala-nodeutils/baseApp');
+import {useXRay, expressError} from '../xray.js';
+import {run} from "@davidkhala/nodeutils/baseApp.js";
 
 const {app} = run(5000);
 useXRay(app, 'test');

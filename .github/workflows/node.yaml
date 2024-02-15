@@ -7,7 +7,7 @@ jobs:
   services:
     strategy:
       matrix:
-        module: [ ec2, kms, s3, sqs,xray, format ]
+        module: [ ec2, kms, s3, sqs, format ]
     runs-on: ubuntu-latest
     defaults:
       run:

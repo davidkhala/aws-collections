@@ -1,0 +1,20 @@
+{
+  "name": "@davidkhala/aws-xray",
+  "version": "0.0.0",
+  "main": "xray.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidkhala/aws-collections.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "@davidkhala/nodeutils": "latest"
+  },
+  "dependencies": {
+    "aws-xray-sdk": "latest"
+  },
+  "type": "module"
+}

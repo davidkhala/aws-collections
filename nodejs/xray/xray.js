@@ -1,18 +1,19 @@
-const AWSXRay = require('aws-xray-sdk');
+import AWSXRay from 'aws-xray-sdk';
+
 /**
  *
- * @param {ExpressApp} app
+ * @param {Express} app
  * @param {string} segmentName required: 'Default segment name was not supplied.  Please provide a string.'
  */
-exports.useXRay = (app, segmentName) => {
+export function useXRay(app, segmentName) {
 	app.use(AWSXRay.express.openSegment(segmentName));
-};
+}
 
 
 /**
  *
- * @param {ExpressApp} app
+ * @param {Express} app
  */
-exports.expressError = (app) => {
+export function expressError(app) {
 	app.use(AWSXRay.express.closeSegment());
-};
+}
