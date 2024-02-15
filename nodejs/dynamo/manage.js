@@ -10,6 +10,12 @@ export class DynamoManager extends AWSClass {
         this.logger = logger
     }
 
+    // switch connection to amazon/dynamodb-local
+    localhost(port = 8000) {
+        this.endpoint = `http://localhost:${port}`
+        this.as(DynamoDBClient)
+    }
+
     async create(attributes, provisioned, withDAX) {
         const {TableName} = this;
 

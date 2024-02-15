@@ -1,9 +1,10 @@
-import {DynamoManager} from '../manage.js';
+import {DynamoManager} from "../manage.js";
 
-describe('DynamoManager', function () {
+describe('docker', function () {
 	this.timeout(0)
 	const tableName = 'test';
 	const dynamoManager = new DynamoManager(tableName);
+	dynamoManager.localhost()
 	const sample = [
 		{name: 'a', type: 'string', keyType: 'partition'},
 		{name: 'b', type: 'number', keyType: 'sort'}
