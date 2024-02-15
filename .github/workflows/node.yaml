@@ -4,17 +4,29 @@ env:
   accessKeyId: ${{ secrets.AWS_ACCESS_KEY_ID }}
   secretAccessKey: ${{ secrets.AWS_SECRET_KEY }}
 jobs:
-  ec2:
+  services:
     strategy:
       matrix:
-        module: [ ec2, kms, dynamo, s3, sqs,xray ]
+        module: [ ec2, kms, s3, sqs,xray, format ]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: nodejs/${{matrix.module}}
     steps:
+      - uses: actions/setup-node@main
+        with:
+          check-latest: true
+          node-version: lts/*
+      - uses: actions/checkout@main
+      - run: npm install
+      - run: npm test
+  dynamo:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nodejs/dynamo
+    steps:
       - uses: davidkhala/setup-dockerode@main
       - run: docker run -d -p 8000:8000 --name=dynamodb-local amazon/dynamodb-local
       - run: npm install
       - run: npm test
-

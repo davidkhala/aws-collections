@@ -1,5 +1,6 @@
-import {KMS, KMSClient} from '@aws-sdk/client-kms';
+import {KMS, KeyUsageType, KeySpec} from '@aws-sdk/client-kms';
 import AWSClass from '@davidkhala/aws-format/index.js';
+import {removeUndefinedValues} from '@davidkhala/light/syntax.js';
 
 /**
  * @enum
@@ -50,6 +51,7 @@ export class AWSKMS extends AWSClass {
 		const {client} = this;
 		const {KeyMetadata} = await client.describeKey({KeyId});
 
+		console.debug({KeyMetadata});
 		if (Array.isArray(KeyMetadata.SigningAlgorithms)) {
 			this.SigningAlgorithm = KeyMetadata.SigningAlgorithms[0];
 		}
@@ -66,7 +68,7 @@ export class AWSKMS extends AWSClass {
 	 * @return {SignResponse}
 	 */
 	async sign(message, messageType = MessageType.raw, signingAlgorithm = this.SigningAlgorithm) {
-		const {kms, KeyId} = this;
+		const {client, KeyId} = this;
 
 		const params = {
 			KeyId,
@@ -74,7 +76,7 @@ export class AWSKMS extends AWSClass {
 			MessageType: messageType,
 			SigningAlgorithm: signingAlgorithm
 		};
-		const {Signature} = await kms.sign(params);
+		const {Signature} = await client.sign(params);
 
 		return Signature;
 	}
@@ -84,9 +86,9 @@ export class AWSKMS extends AWSClass {
 	 * @return {Promise<boolean>}
 	 */
 	async verify(message, signature, messageType = MessageType.raw, signingAlgorithm = this.SigningAlgorithm) {
-		const {kms, KeyId} = this;
+		const {client, KeyId} = this;
 
-		const {SignatureValid} = await kms.verify({
+		const {SignatureValid} = await client.verify({
 			KeyId,
 			Message: Buffer.from(message),
 			Signature: signature,
@@ -96,17 +98,21 @@ export class AWSKMS extends AWSClass {
 		return SignatureValid;
 	}
 
+	/**
+	 *
+	 * @param {KeyUsageType} KeyUsage
+	 * @param {KeySpec} KeySpec
+	 * @return {Promise<{}|*>}
+	 */
 	async create({KeyUsage, KeySpec} = {}) {
 		const {KeyMetadata} = await this.client.createKey({KeySpec, KeyUsage});
-		// clean undefined
-		for (const [entry, value] of Object.entries(KeyMetadata)) {
-			if (!value) {
-				delete KeyMetadata[entry];
-			}
-		}
-		return KeyMetadata;
-	}
 
+		return removeUndefinedValues(KeyMetadata, true);
+	}
+	async createEC(keySpec = KeySpec.ECC_NIST_P256) {
+
+		return await this.create({KeyUsage:KeyUsageType.SIGN_VERIFY, KeySpec:keySpec});
+	}
 	async remove(KeyId, PendingWindowInDays = 7) {
 
 		if (PendingWindowInDays < 7) {

@@ -1,10 +1,10 @@
 import AWSClass from '../index.js';
 
-describe('from cloud9 or instance principal', function () {
+describe('base class', function () {
 	this.timeout(0);
-	const store = new AWSClass();
+	const instance = new AWSClass();
 
-	it('ping with dry-run', async () => {
-		await store.ping();
+	it('ping', async () => {
+		await instance.ping();
 	});
 });

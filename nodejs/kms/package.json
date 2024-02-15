@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "dependencies": {
     "@aws-sdk/client-kms": "latest",
-    "@davidkhala/aws-format": "latest"
+    "@davidkhala/aws-format": "latest",
+    "@davidkhala/light": "latest"
   },
   "scripts": {
     "test": "mocha test"
   },
   "devDependencies": {
-    "@davidkhala/light": "latest",
     "mocha": "latest"
   },
   "type": "module"

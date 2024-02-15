@@ -13,9 +13,10 @@ import {
 
 export class SQS extends AWSClass {
 
-	constructor(param) {
-		super(param);
-		this.as(SQSClient);
+	constructor(...param) {
+		super(...param);
+		delete this.logger
+		super.as(SQSClient);
 	}
 
 	/**
@@ -60,19 +61,16 @@ export class SQS extends AWSClass {
 		return QueueUrls;
 	}
 
-
-}
-
-export class Message extends AWSClass {
 	/**
 	 *
-	 * @param QueueUrl or queue name
-	 * @param param
+	 * @param QueueUrl
+	 * @param {true} [fifo]
 	 */
-	constructor(QueueUrl, param) {
-		super(param);
+	as(QueueUrl, fifo) {
 		this.QueueUrl = QueueUrl;
-		this.as(SQSClient);
+		if (fifo) {
+			this.asFIFO();
+		}
 	}
 
 	asFIFO() {
@@ -83,10 +81,6 @@ export class Message extends AWSClass {
 
 	isFIFO() {
 		return this.QueueUrl.endsWith('.fifo');
-	}
-
-	static FromSQS(QueueUrl, instance) {
-		return new Message(QueueUrl, Object.assign(instance.credentials, {region: instance.region}));
 	}
 
 	/**
@@ -150,8 +144,10 @@ export class Message extends AWSClass {
 	 * Deletes the queue specified by the QueueUrl, regardless of the queue's contents.
 	 */
 	async destroy() {
-		const {QueueUrl} = this;
+		// actual url is required by DeleteQueueCommand
+		const QueueUrl = await this.getQueueUrl(this.QueueUrl);
 		await this.sendCommand({QueueUrl}, DeleteQueueCommand);
-		console.warn('You must wait 60 seconds after deleting a queue before you can create another queue with the same name.');
+		this.logger && this.logger.warn('You must wait 60 seconds after deleting a queue before you can create another queue with the same name.');
 	}
+
 }
