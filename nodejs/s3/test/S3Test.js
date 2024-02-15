@@ -1,10 +1,9 @@
 import S3 from '../s3.js';
 
-const region = 'ap-east-1';
+const s3 = new S3();
+describe('S3', function () {
+	this.timeout(0)
 
-const s3 = new S3(region);
-describe('S3', () => {
-	console.info('endpoint', s3.endpoint);
 	it('list', async () => {
 		const buckets = await s3.listBuckets();
 		console.info('list buckets', buckets);

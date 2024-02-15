@@ -3,11 +3,10 @@ import AWSClass from '@davidkhala/aws-format/index.js';
 import assert from "assert";
 
 export class DynamoManager extends AWSClass {
-    constructor(TableName, logger = console) {
+    constructor(TableName) {
         super();
-        this.as(DynamoDBClient);
+        super.as(DynamoDBClient);
         this.TableName = TableName;
-        this.logger = logger
     }
 
     // switch connection to amazon/dynamodb-local

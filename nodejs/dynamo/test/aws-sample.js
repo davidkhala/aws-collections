@@ -3,8 +3,7 @@ import assert from 'assert';
 
 describe('native way', function () {
 	this.timeout(0);
-	const {accessKeyId, secretAccessKey} = process.env;
-	const client = new DynamoDBClient({accessKeyId, secretAccessKey, region: 'ap-east-1'});
+	const client = new DynamoDBClient();
 	const TableName = 'TEST_TABLE';
 	it('create table', async () => {
 
