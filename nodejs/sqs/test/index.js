@@ -16,7 +16,7 @@ describe('sqs', function () {
 		assert.equal(q, 'https://sqs.ap-east-1.amazonaws.com/606262941110/standard-sqs');
 		const queues = await sqs.list();
 		assert.ok(queues.includes(q));
-		console.debug(queues)
+		console.debug(queues);
 	});
 
 	it('create', async () => {
@@ -58,7 +58,7 @@ describe('sqs', function () {
 		await sleep(sleepTime);
 		const q2 = await sqs.list();
 		console.debug(`${sleepTime / 1000} seconds after deletion`, q2);
-		assert.equal(q2.length === q1.length - 2);
+		assert.equal(q2.length, q1.length - 2);
 	});
 });
 
