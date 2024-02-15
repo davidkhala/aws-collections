@@ -9,13 +9,14 @@ import {
 	PurgeQueueCommand,
 	ReceiveMessageCommand,
 	DeleteMessageCommand,
+	GetQueueAttributesCommand,
+	QueueAttributeName
 } from '@aws-sdk/client-sqs';
 
 export class SQS extends AWSClass {
 
 	constructor(...param) {
 		super(...param);
-		delete this.logger
 		super.as(SQSClient);
 	}
 
@@ -31,13 +32,35 @@ export class SQS extends AWSClass {
 			Attributes: {}
 		};
 		if (isFifo) {
-			opts.Attributes.FifoQueue = true;
-			opts.Attributes.ContentBasedDeduplication = true;
+			opts.Attributes.FifoQueue = true.toString();
+			opts.Attributes.ContentBasedDeduplication = true.toString();
 			opts.QueueName = `${QueueName}.fifo`;
 		}
 
-		const createResult = await this.sendCommand(opts, CreateQueueCommand);
-		return createResult.QueueUrl;
+		const {QueueUrl} = await this.sendCommand(opts, CreateQueueCommand);
+
+
+		return QueueUrl;
+	}
+
+	async createSync(...params) {
+		const QueueUrl = await this.create(...params);
+		const wait = async () => {
+			const list = await this.list(SQS.nameFromURL(QueueUrl));
+			if (!list.includes(QueueUrl)) {
+				return await wait();
+			}
+		};
+		await wait();
+		return QueueUrl;
+	}
+
+	async get() {
+		const {QueueUrl} = this;
+		return await this.sendCommand({
+			AttributeNames: [QueueAttributeName.All],
+			QueueUrl,
+		}, GetQueueAttributesCommand);
 	}
 
 	/**
@@ -54,8 +77,8 @@ export class SQS extends AWSClass {
 	 *
 	 * @return {Promise<String[]>}
 	 */
-	async list() {
-		const listResult = await this.sendCommand({}, ListQueuesCommand);
+	async list(QueueNamePrefix) {
+		const listResult = await this.sendCommand({QueueNamePrefix}, ListQueuesCommand);
 
 		const {QueueUrls} = listResult;
 		return QueueUrls;
@@ -89,9 +112,10 @@ export class SQS extends AWSClass {
 	 * @param [groupId] fifo only, invalid for standard queue
 	 */
 	async send(message, {timeout = 0, groupId = 'default'} = {}) {
+		const {QueueUrl} = this;
 		const opts = {
 			MessageBody: message,
-			QueueUrl: this.QueueUrl,
+			QueueUrl,
 			DelaySeconds: timeout / 1000,
 		};
 		if (this.isFIFO()) {
@@ -140,6 +164,16 @@ export class SQS extends AWSClass {
 		await this.sendCommand({QueueUrl}, PurgeQueueCommand);
 	}
 
+	// get the queue name from QueueURL
+	get name() {
+		return SQS.nameFromURL(this.QueueUrl);
+	}
+
+	static nameFromURL(url) {
+		// 	url template: https://sqs.us-east-2.amazonaws.com/123456789012/MyQueue
+		return url.split('/')[4];
+	}
+
 	/**
 	 * Deletes the queue specified by the QueueUrl, regardless of the queue's contents.
 	 */
@@ -147,7 +181,17 @@ export class SQS extends AWSClass {
 		// actual url is required by DeleteQueueCommand
 		const {QueueUrl} = this;
 		await this.sendCommand({QueueUrl}, DeleteQueueCommand);
-		this.logger && this.logger.warn('You must wait 60 seconds after deleting a queue before you can create another queue with the same name.');
+		this.logger?.warn('You must wait 60 seconds after deleting a queue before you can create another queue with the same name.');
+	}
+	async destroySync(){
+		await this.destroy()
+		const wait = async () => {
+			const list = await this.list(this.name);
+			if (list?.includes(this.QueueUrl)) {
+				return await wait();
+			}
+		};
+		await wait();
 	}
 
 }

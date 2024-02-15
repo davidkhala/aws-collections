@@ -1,9 +1,9 @@
 import assert from 'assert';
 import {SQS} from '../sqs.js';
 
-import {sleep} from '@davidkhala/light/index.js';
 
 const sqs = new SQS();
+delete sqs.logger
 const queue = 'standard-sqs';
 const nq = 'test';
 
@@ -20,13 +20,13 @@ describe('sqs', function () {
 	});
 
 	it('create', async () => {
-		const QueueUrl = await sqs.create(nq);
+
+		const QueueUrl = await sqs.createSync(nq);
 		console.info(QueueUrl);
 	});
 	it('create fifo', async () => {
-		const QueueUrl = await sqs.create(nq, true);
+		const QueueUrl = await sqs.createSync(nq, true);
 		console.info(QueueUrl);
-
 	});
 	it('message fifo', async () => {
 		sqs.as('https://sqs.ap-east-1.amazonaws.com/606262941110/test.fifo');
@@ -48,18 +48,12 @@ describe('sqs', function () {
 	});
 	it('destroy', async () => {
 		sqs.as('https://sqs.ap-east-1.amazonaws.com/606262941110/test');
-
-		await sqs.destroy();
-		sqs.as('https://sqs.ap-east-1.amazonaws.com/606262941110/test.fifo');
-		await sqs.destroy();
-		const q1 = await sqs.list();
-		console.debug('immediate after deletion', q1);
-		const sleepTime = 60000;
-		await sleep(sleepTime);
-		const q2 = await sqs.list();
-		console.debug(`${sleepTime / 1000} seconds after deletion`, q2);
-		assert.equal(q2.length, q1.length - 2);
+		await sqs.destroySync();
 	});
+	it('destroy fifo', async ()=>{
+		sqs.as('https://sqs.ap-east-1.amazonaws.com/606262941110/test.fifo');
+		await sqs.destroySync();
+	})
 });
 
 
