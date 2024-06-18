@@ -1,6 +1,7 @@
 set -e
 describe-public-key(){
-  aws ec2 describe-key-pairs --key-names $1 --include-public-key | jq -r ".KeyPairs[0].PublicKey"
+  aws ec2 describe-key-pairs --include-public-key --filters Name=key-name,Values=$1 --query KeyPairs[*].PublicKey --output text
+  
 }
 create-key-pair(){
   aws ec2 create-key-pair --key-name $1 --key-type rsa --key-format pem --query "KeyMaterial" --output text > "${1}.pem"
