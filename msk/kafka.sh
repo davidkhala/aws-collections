@@ -6,6 +6,8 @@ install-client(){
   cd kafka_2.13-${MSK_VERSION}/libs
   wget https://github.com/aws/aws-msk-iam-auth/releases/download/v1.1.1/aws-msk-iam-auth-1.1.1-all.jar
   cd ../bin
-  # client.properties
+  wget https://raw.githubusercontent.com/davidkhala/aws-collections/main/msk/client.properties
+  ./kafka-topics.sh
+  # kafka-topics.sh --create --bootstrap-server BootstrapServerString --command-config client.properties --replication-factor 3 --partitions 1 --topic MSKTutorialTopic
 }
 $@
