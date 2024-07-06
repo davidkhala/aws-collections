@@ -11,7 +11,20 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: nodejs/${{matrix.module}}
+        working-directory: ${{matrix.module}}/node
+    steps:
+      - uses: actions/setup-node@main
+        with:
+          check-latest: true
+          node-version: lts/*
+      - uses: actions/checkout@main
+      - run: npm install
+      - run: npm test
+  format:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: nodejs/format
     steps:
       - uses: actions/setup-node@main
         with:
