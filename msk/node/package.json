@@ -1,0 +1,23 @@
+{
+  "name": "@davidkhala/aws-msk",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "devDependencies": {
+    "mocha": "latest"
+  },
+  "dependencies": {
+    "@davidkhala/kafka": "latest",
+    "aws-msk-iam-sasl-signer-js": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidkhala/aws-collections.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module"
+}
