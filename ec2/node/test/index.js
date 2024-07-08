@@ -1,5 +1,5 @@
 import EC2 from '../index.js';
-
+import Metadata from '../imds.js'
 describe('ec2', function () {
 	this.timeout(0);
 	const handler = new EC2();
@@ -15,3 +15,11 @@ describe('ec2', function () {
 		console.info(resp);
 	});
 });
+describe('metadata', function (){
+	this.timeout(0);
+	const metadata = new Metadata()
+	it('region info', async ()=>{
+		const result= await metadata.region()
+		console.info(result);
+	})
+})
