@@ -19,7 +19,7 @@ describe('metadata', function (){
 	this.timeout(0);
 	const metadata = new Metadata()
 	it('region info', async ()=>{
-		const result= await metadata.region()
-		console.info(result);
+		console.info(await metadata.request());
+		console.info(await metadata.region());
 	})
 })

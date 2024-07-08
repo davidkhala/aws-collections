@@ -10,7 +10,7 @@ export default class Metadata {
 	}
 
 	async region() {
-		return await this.request('placement')
+		return await this.request('placement/region')
 	}
 	async userData(options){
 		return await this.client.request('/latest/user-data',options)
