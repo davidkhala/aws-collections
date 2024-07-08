@@ -3,7 +3,8 @@
   "version": "0.0.0-alpha",
   "dependencies": {
     "@aws-sdk/client-ec2": "latest",
-    "@davidkhala/aws-format": "latest"
+    "@davidkhala/aws-format": "latest",
+    "@aws-sdk/ec2-metadata-service": "latest"
   },
   "scripts": {
     "test": "mocha test"
