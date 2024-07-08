@@ -1,12 +1,11 @@
 import KafkaManager from '@davidkhala/kafka/index.js';
-
 import {generateAuthToken} from 'aws-msk-iam-sasl-signer-js';
 
 export default class MSK extends KafkaManager {
 	/**
 	 *
 	 * @param {string[]} brokers
-	 * @param {string} [region] TODO: if not specified, fetch it from IMDS first.
+	 * @param {string} region must provide
 	 */
 	constructor(brokers, region) {
 		const sasl = {
