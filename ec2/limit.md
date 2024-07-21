@@ -9,3 +9,5 @@
 - Even having a subnet with auto assign public IP switched on will not assign a public IP to your instance if not specified when you launch
 
 ## Not Serial Connect available without Nitro
+> **This instance type is not supported for the EC2 serial console.**  
+> To connect to the serial port of an instance using the EC2 serial console, the instance must use an instance type that is built on the AWS Nitro System. You can change the instance type to a supported virtualized instance type or bare metal instance type.
