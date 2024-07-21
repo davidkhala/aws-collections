@@ -11,3 +11,9 @@
 ## Not Serial Connect available without Nitro
 > **This instance type is not supported for the EC2 serial console.**  
 > To connect to the serial port of an instance using the EC2 serial console, the instance must use an instance type that is built on the AWS Nitro System. You can change the instance type to a supported virtualized instance type or bare metal instance type.
+
+Allow list: VM with Nitro System
+- https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html?icmpid=docs_ec2_console#nitro-instance-types
+
+Block list but generally used daily
+- T2 series
