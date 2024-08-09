@@ -7,7 +7,7 @@ jobs:
   services:
     strategy:
       matrix:
-        module: [ ec2, kms, s3, sqs, format ]
+        module: [ ec2, kms, s3, sqs]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: nodejs/dynamo
+        working-directory: dynamo/node
     steps:
       - uses: davidkhala/setup-dockerode@main
       - run: docker run -d -p 8000:8000 --name=dynamodb-local amazon/dynamodb-local
