@@ -5,7 +5,7 @@ install() {
   eksctl version
 
 }
-list() {
+list-nodegroup() {
   eksctl get nodegroup --cluster=$clusterName
 }
 $@
