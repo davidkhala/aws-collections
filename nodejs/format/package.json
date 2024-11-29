@@ -2,6 +2,7 @@
   "name": "@davidkhala/aws-format",
   "version": "0.1.3",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "test": "mocha test"
   },

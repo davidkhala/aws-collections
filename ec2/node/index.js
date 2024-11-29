@@ -1,5 +1,5 @@
 import {EC2Client, DescribeInstancesCommand, DescribeRegionsCommand} from '@aws-sdk/client-ec2';
-import AWSClass from '@davidkhala/aws-format';
+import AWSClass from '@davidkhala/aws-format/index.js';
 
 export default class EC2 extends AWSClass {
 	constructor() {
